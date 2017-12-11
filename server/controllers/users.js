@@ -24,7 +24,7 @@ module.exports = {
         return res.json(user)
     })
   },
-  delete: function(req,res){
+  delete: function(req, res){
     User.findByIdAndRemove(req.params.id).exec(function(err, user){
         if(err){
             return res.json(err)
@@ -42,7 +42,7 @@ module.exports = {
     })
   },
   login: function(req, res) {
-      User.findOne({username: req.body.username}, function(err, user){
+      User.findOne({email: req.body.email}, function(err, user){
         if(err){
             return res.json(err)
         }

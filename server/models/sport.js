@@ -11,10 +11,10 @@ let SportSchema = new mongoose.Schema({
     name: {
         type: String
     },
-    user: {
+    users: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    }],
 }, {timestamps: true})
 
 let Sport = mongoose.model('Sport', SportSchema)

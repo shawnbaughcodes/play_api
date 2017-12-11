@@ -21,7 +21,7 @@ var UserSchema = new mongoose.Schema({
         required: [true, 'Must have Email'],
         validate: {
             validator: function(v){
-                return /S*@S*.S+/g.test(v);
+                return /\w+@\w+.\w+/g.test(v);
             },
             message: 'Email must be valid.',
         },
@@ -31,15 +31,23 @@ var UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Must enter a Password']
     },
+    comments: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    },
     friends: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Friend'
     }],
-    comments: [{
+    sports: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment'
-    }],},
-    {timestamps: true})
+        ref: 'Sport'
+    }],
+    teams: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Team'
+    }],
+}, {timestamps: true})
 
 UserSchema.methods.hashPassword = function (password) {
     this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
