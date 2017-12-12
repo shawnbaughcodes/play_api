@@ -14,7 +14,8 @@ module.exports = function(app){
 	app.post('/users', Users.create);
 	app.post('/sessions', Users.login);
 	app.get('/users/:id', Users.show);
-	app.delete('/users/:id', Users.delete)
+	app.post('/users/add/:id', Users.addfriend);
+	app.delete('/users/:id', Users.delete);
     	// SPORTS
 	app.get('/sports', Sports.index);
 	app.post('/sports', Sports.create);

@@ -12,6 +12,10 @@ let TeamSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter team name.']
     },
+    user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+    },
     sport: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Sport',

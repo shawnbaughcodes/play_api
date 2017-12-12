@@ -13,16 +13,20 @@ let EventSchema = new mongoose.Schema({
         required: [true, 'Must have event name.']
     },
     date: {
-        type: Number,
+        type: String,
         required: [true, 'Please enter date.']
     },
     time: {
-        type: Number,
+        type: String,
         required: [true, 'Please enter time.']
     },
     location: {
         type: String,
         required: [true, 'Please enter location.']
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     description: {
         type: String,

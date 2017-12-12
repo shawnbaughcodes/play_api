@@ -47,6 +47,10 @@ var UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Team'
     }],
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }]
 }, {timestamps: true})
 
 UserSchema.methods.hashPassword = function (password) {

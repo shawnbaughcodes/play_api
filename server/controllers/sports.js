@@ -26,6 +26,7 @@ module.exports = {
                     return res.json(err)
                 }
                 sport.users.push(user.id)
+                user.sports.push(sport.id)
                 user.save(function(err, user){
                     if (err) {
                         return res.json(err)

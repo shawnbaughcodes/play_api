@@ -4,6 +4,8 @@ let mongoose = require('mongoose');
             Events CONTROLLER
 ****************************************/
 let Event = mongoose.model('Event');
+let User = mongoose.model('User');
+let Team = mongoose.model('Team');
 
 module.exports = {
     index: function(req, res){
@@ -15,6 +17,23 @@ module.exports = {
         })
     },
     create: function(req, res){
+        Event.create(req.body, function(err, event) {
+            if (err) {
+                return res.json(err)
+            }
+            User.findById(req.body.user, function(err, user) {
+                if (err) {
+                    return res.json(err)
+                }
+                user.events.push(event.id)
+                user.save(function(err, user){
+                    if (err) {
+                        return res.json(err)
+                    }
+                    return res.json(event)
+                })
+            })
+        })
         let event = new Event(req.body)
         event.save(function(err, event){
             if (err) {
@@ -44,15 +63,15 @@ module.exports = {
             if (err) {
                 return res.json(err)
             }
-            if (req.body.users > 0) {
-                for(user in req.body.users){
-                    event.users.push(user._id)
-                }
+            let users = req.body.users
+            for(let i = 0; i < users; i++){
+                event.users.push(user[i].user)
             }
-            for(team in req.body.teams){
-                event.teams.push(team._id)
+            let teams = req.body.teams
+            for (let i = 0; i < teams.length; i++) {
+                event.teams.push(teams[i].team);
             }
-            event.save(function(err, team){
+            event.save(function(err, event){
                 if (err) {
                     return res.json(err)
                 }
@@ -60,5 +79,4 @@ module.exports = {
             })
         })
     }
-
 }

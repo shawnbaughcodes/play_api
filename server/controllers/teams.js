@@ -4,23 +4,34 @@ let mongoose = require('mongoose');
             TEAM CONTROLLER
 ****************************************/
 let Team = mongoose.model('Team');
+let User = mongoose.model('User');
 
 module.exports = {
     index: function(req, res){
-        Team.finf({}).exec(function (err, teams) {
+        Team.find({}).exec(function (err, teams) {
             if (err) {
-                return res.json(err)
+                return res.json(err);
             }
-            return res.json(teams)
+            return res.json(teams);
         })
     },
     create: function(req, res) {
-        let team = new Team(req.body)
-        team.save(function(err, team){
-            if(err){
-                return res.json(err)
+        Team.create(req.body, function(err, team){
+            if (err) {
+                return res.json(err);
             }
-            return res.json(team)
+            User.findById(req.body.user, function(err, user){
+                if (err) {
+                    return res.json(err);
+                }
+                user.teams.push(team._id)
+                user.save(function(err, user){
+                    if (err) {
+                        return res.json(err);
+                    }
+                    return res.json(team);
+                })
+            })
         })
     },
     delete: function(req, res) {
@@ -44,8 +55,9 @@ module.exports = {
             if(err){
                 return res.json(err)
             }
-            for (user in req.body.users) {
-                team.users.push(user._id)
+            let users =  req.body.users
+            for (let i = 0; i < users.length; i++) {
+                team.users.push(users[i].user)
             }
             team.save(function(err, team){
                 if (err) {

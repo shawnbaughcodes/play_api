@@ -4,10 +4,11 @@ let mongoose = require('mongoose');
             USERS CONTROLLER
 ****************************************/
 let Post = mongoose.model('Post');
+let User = mongoose.model('User');
 
 module.exports = {
     index: function(req, res){
-        Event.finc({}).exec(function (err, events) {
+        Post.find({}).exec(function (err, posts) {
             if (err) {
                 return res.json(err)
             }
@@ -15,12 +16,22 @@ module.exports = {
         })
     },
     create: function(req, res){
-        let post = new Post(req.body)
-        post.save(function(err, post){
-            if(err){
-                return res.json(err)
+        Post.create(req.body, function(err, post){
+            if (err) {
+                return res.json(err);
             }
-            return res.json(post)
+            User.findById(req.body.user, function(err, user){
+                if (err) {
+                    return res.json(err);
+                }
+                user.posts.push(post._id)
+                user.save(function(err, user){
+                    if (err) {
+                        return res.json(err);
+                    }
+                    return res.json(post);
+                })
+            })
         })
     },
     show: function(req, res){
