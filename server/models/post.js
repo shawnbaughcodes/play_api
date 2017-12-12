@@ -1,7 +1,7 @@
 console.log('Post model');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 /**************************************
             POST SCHEMA

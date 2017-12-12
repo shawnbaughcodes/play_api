@@ -1,7 +1,7 @@
 console.log('Team model');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 /**************************************
             TEAM SCHEMA
