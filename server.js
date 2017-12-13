@@ -5,7 +5,7 @@ let express = require('express'),
     port = process.env.PORT || 8000,
     app = express();
 
-app.use(express.static(root + '/clients'));
+app.use(express.static(root + '/client'));
 app.use(express.static(root + '/bower_components'));
 app.use(bp.json());
 

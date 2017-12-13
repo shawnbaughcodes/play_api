@@ -10,6 +10,7 @@ const Events = require('./../controllers/events.js')
 /*********************************************/
 module.exports = function(app){
     	// USERS
+	app.get('/', Users.home)
 	app.get('/users', Users.index);
 	app.post('/users', Users.create);
 	app.post('/sessions', Users.login);

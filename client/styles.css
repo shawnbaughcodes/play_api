@@ -1,0 +1,26 @@
+body {
+    overflow: hidden;
+}
+#title-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: #211A1E;
+}
+#title {
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-size: 160pt;
+    color: #FBFBFB;
+    position: relative;
+    top: 10%;
+    transform: translateY(50%);
+}
+#text {
+    text-align: center;
+    color: #FBFBFB;
+    font-family: 'Megrim', cursive;
+    font-size: 30pt;
+    position: relative;
+    top: 25%;
+    transform: translateY(50%);
+}
