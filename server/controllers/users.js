@@ -1,5 +1,6 @@
 console.log('Users Controller');
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 /****************************************
             USERS CONTROLLER
 ****************************************/
@@ -24,6 +25,10 @@ module.exports = {
             if(err){
                 return res.json(err)
             }
+            const token = jwt.sign({ id: req.body.user._id }, config.secret, {
+                expiresIn: 86400
+            });
+            
             return res.json(user)
         })
     },

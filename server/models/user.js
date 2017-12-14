@@ -1,13 +1,13 @@
 console.log('Users model');
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
 
 /**************************************
             USER SCHEMA
 **************************************/
 
-var UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     firstname: {
         type: String,
         required: [true, 'Must have full name.']
