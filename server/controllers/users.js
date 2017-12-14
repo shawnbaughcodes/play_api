@@ -1,6 +1,8 @@
 console.log('Users Controller');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const verifyToken = require('./verifyToken');
+const config = require('./config');
 /****************************************
             USERS CONTROLLER
 ****************************************/
@@ -21,16 +23,20 @@ module.exports = {
     },
     create: function(req,res){
         let user = new User(req.body)
-        user.save(function(err, user){
+        console.log(config);
+        User.create(req.body, function(err, user){
             if(err){
                 return res.json(err)
             }
-            const token = jwt.sign({ id: req.body.user._id }, config.secret, {
+        },
+        function(err, user) {
+            const token = jwt.sign({ id: user._id }, config.secret, {
                 expiresIn: 86400
             });
-            
-            return res.json(user)
-        })
+            res.send({ auth: true, token: token, user: user })
+
+        }
+    )
     },
     delete: function(req, res){
         User.findByIdAndRemove(req.params.id).exec(function(err, user){
@@ -54,9 +60,12 @@ module.exports = {
             if(err){
                 return res.json(err)
             }
-            if(user && user.authenticate(req.body.password)){
-                return res.json(user)
-            } else{
+            if (user && user.authenticate(req.body.password)) {
+                const token = jwt.sign({ id: user._id }, config.secret, {
+                    expiresIn: 86400
+                })
+                return res.json({auth: true, token: token, user: user})
+            } else {
                 return res.json({
                     "errors":{
                         "password":{
