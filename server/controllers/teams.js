@@ -8,28 +8,38 @@ let User = mongoose.model('User');
 
 module.exports = {
     index: function(req, res){
-        Team.find({}).exec(function (err, teams) {
+        User.findById(req.params.id).exec(function(err, user) {
             if (err) {
-                return res.json(err);
+                return res.redirect('/')
             }
-            return res.json(teams);
-        })
-    },
-    create: function(req, res) {
-        Team.create(req.body, function(err, team){
-            if (err) {
-                return res.json(err);
-            }
-            User.findById(req.body.user, function(err, user){
+            Team.find({}).exec(function (err, teams) {
                 if (err) {
                     return res.json(err);
                 }
-                user.teams.push(team._id)
-                user.save(function(err, user){
+                return res.json(teams);
+            })
+        })
+    },
+    create: function(req, res) {
+        User.findById(req.params.id).exec(function(err, user) {
+            if (err) {
+                return res.redirect('/')
+            }
+            Team.create(req.body, function(err, team){
+                if (err) {
+                    return res.json(err);
+                }
+                User.findById(req.body.user, function(err, user){
                     if (err) {
                         return res.json(err);
                     }
-                    return res.json(team);
+                    user.teams.push(team._id)
+                    user.save(function(err, user){
+                        if (err) {
+                            return res.json(err);
+                        }
+                        return res.json(team);
+                    })
                 })
             })
         })

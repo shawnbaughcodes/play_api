@@ -9,37 +9,47 @@ let Team = mongoose.model('Team');
 
 module.exports = {
     index: function(req, res){
-        Event.find({}).exec(function(err, events) {
+        User.findById(req.params.id).exec(function(err, user) {
             if (err) {
-                return res.json(err);
+                return res.redirect('/')
             }
-            return res.json(events);
+            Event.find({}).exec(function(err, events) {
+                if (err) {
+                    return res.json(err);
+                }
+                return res.json(events);
+            })
         })
     },
     create: function(req, res){
-        Event.create(req.body, function(err, event) {
+        User.findById(req.params.id).exec(function(err, user) {
             if (err) {
-                return res.json(err)
+                return res.redirect('/')
             }
-            User.findById(req.body.user, function(err, user) {
+            Event.create(req.body, function(err, event) {
                 if (err) {
                     return res.json(err)
                 }
-                user.events.push(event.id)
-                user.save(function(err, user){
+                User.findById(req.body.user, function(err, user) {
                     if (err) {
                         return res.json(err)
                     }
-                    return res.json(event)
+                    user.events.push(event.id)
+                    user.save(function(err, user){
+                        if (err) {
+                            return res.json(err)
+                        }
+                        return res.json(event)
+                    })
                 })
             })
-        })
-        let event = new Event(req.body)
-        event.save(function(err, event){
-            if (err) {
-                return res.json(err)
-            }
-            return res.json(event)
+            let event = new Event(req.body)
+            event.save(function(err, event){
+                if (err) {
+                    return res.json(err)
+                }
+                return res.json(event)
+            })
         })
     },
     delete: function(req, res){

@@ -9,11 +9,16 @@ let User = mongoose.model('User');
 
 module.exports = {
     index: function(req, res){
-        Sport.find({}).exec(function(err, sports) {
-            if(err){
-                return res.json(err)
+        User.findById(req.params.id).exec(function(err, user) {
+            if (err) {
+                return res.redirect('/')
             }
-            return res.json(sports);
+            Sport.find({}).exec(function(err, sports) {
+                if(err){
+                    return res.json(err)
+                }
+                return res.json(sports);
+            })
         })
     },
     add: function(req, res) {
