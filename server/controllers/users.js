@@ -8,12 +8,17 @@ const base = require('./base');
             USERS CONTROLLER
 ****************************************/
 let User = mongoose.model('User');
-
+function check() {
+    if (res.status == 404) {
+        return res.redirect('/')
+    }
+}
 module.exports = {
     home: function(req, res){
         return res.render('/')
     },
     index: function(req, res){
+        check()
         User.findById(req.params.id).exec(function(err, user) {
             if (err) {
                 return res.redirect('/')
