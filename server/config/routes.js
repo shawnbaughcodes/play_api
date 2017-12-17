@@ -15,7 +15,7 @@ module.exports = function(app){
 
 	app.get('/', Users.home);
 	app.get('/users/all/:id', Users.index);
-	app.post('/users/', Users.create);
+	app.post('/users', Users.create);
 	app.post('/sessions', Users.login);
 	app.get('/users/:id', Users.show);
 	app.post('/users/add/:id', Users.addfriend);
