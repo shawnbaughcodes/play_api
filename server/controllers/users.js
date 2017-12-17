@@ -18,7 +18,6 @@ module.exports = {
         return res.render('/')
     },
     index: function(req, res){
-        check()
         User.findById(req.params.id).exec(function(err, user) {
             if (err) {
                 return res.redirect('/')
@@ -37,14 +36,11 @@ module.exports = {
             if(err){
                 return res.json(err)
             }
-        },
-        function(err, user) {
             const token = jwt.sign({ id: user._id }, config.secret, {
                 expiresIn: 86400
-            });
-            res.send({ auth: true, token: token, user: user.email})
-        }
-    )
+            })
+            return res.json({ auth: true, token: token, user })
+        })
     },
     delete: function(req, res){
         User.findByIdAndRemove(req.params.id).exec(function(err, user){
@@ -72,7 +68,7 @@ module.exports = {
                 const token = jwt.sign({ id: user._id }, config.secret, {
                     expiresIn: 86400
                 })
-                return res.json({auth: true, token: token, user: user})
+                return res.json({auth: true, token: token, user})
             } else {
                 return res.json({
                     "errors":{
