@@ -39,7 +39,6 @@ module.exports = {
             const token = jwt.sign({ id: user._id }, config.secret, {
                 expiresIn: 86400
             })
-            console.log(res.send({ auth: true, token: token, user }));
             return res.send({ auth: true, token: token, user })
         })
     },
