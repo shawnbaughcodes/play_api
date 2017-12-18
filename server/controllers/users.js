@@ -39,7 +39,7 @@ module.exports = {
             const token = jwt.sign({ id: user._id }, config.secret, {
                 expiresIn: 86400
             })
-            return res.json({ auth: true, token: token, user })
+            return res.send({ auth: true, token: token, user })
         })
     },
     delete: function(req, res){
@@ -68,7 +68,7 @@ module.exports = {
                 const token = jwt.sign({ id: user._id }, config.secret, {
                     expiresIn: 86400
                 })
-                return res.json({auth: true, token: token, user})
+                return res.send({auth: true, token: token, user})
             } else {
                 return res.json({
                     "errors":{
